@@ -40,7 +40,6 @@ class SaleagentRepository implements SalesagentRepositoryInterface
         SalesagentFactory $salesagentFactory,
         StoreManagerInterface $storeManager,
         DataObjectProcessor $dataObjectProcessor,
-
         array $data = []
     ) {
         $this->salesagentFactory = $salesagentFactory;

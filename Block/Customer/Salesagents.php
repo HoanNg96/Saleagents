@@ -13,8 +13,6 @@ class Salesagents extends \Magento\Framework\View\Element\Template
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\App\ResourceConnection $Resource,
-
-
         array $data = []
     ) {
         $this->_customerSession = $customerSession;
