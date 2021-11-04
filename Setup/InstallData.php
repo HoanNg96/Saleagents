@@ -29,8 +29,10 @@ class InstallData implements InstallDataInterface
      * @param EavSetupFactory $eavSetupFactory
      * @param Config $eavConfig
      */
-    public function __construct(EavSetupFactory $eavSetupFactory, Config $eavConfig)
-    {
+    public function __construct(
+        EavSetupFactory $eavSetupFactory,
+        Config $eavConfig
+    ) {
         $this->eavSetupFactory = $eavSetupFactory;
         $this->eavConfig = $eavConfig;
     }
@@ -51,7 +53,7 @@ class InstallData implements InstallDataInterface
          * (Mapping by \Magento\'Catalog/Customer'\Model\ResourceModel\Setup\PropertyMapper)
          */
         $eavSetup->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'sale_agent_id', [
-            'group' => 'Sale Agent',/* group attribute in BE */
+            'group' => 'Product Details',/* group attribute in BE */
             'type' => 'text',/* decide what table the value was stored -> catalog_product_entity_'text' */
             'backend' => '',/* class associated with the attribute */
             'frontend' => '',/* class associated with the attribute */
@@ -74,7 +76,7 @@ class InstallData implements InstallDataInterface
         ]);
 
         $eavSetup->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'commission_type', [
-            'group' => 'Sale Agent',
+            'group' => 'Product Details',
             'type' => 'int',
             'backend' => '',
             'frontend' => '',
@@ -97,7 +99,7 @@ class InstallData implements InstallDataInterface
         ]);
 
         $eavSetup->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'commission_value', [
-            'group' => 'Sale Agent',
+            'group' => 'Product Details',
             'type' => 'decimal',
             'backend' => '',
             'frontend' => '',
@@ -134,6 +136,7 @@ class InstallData implements InstallDataInterface
             'system'       => 0
         ]);
 
+        /* add attribute to form */
         $customerAttr = $this->eavConfig->getAttribute(\Magento\Customer\Model\Customer::ENTITY, 'is_sales_agent');
         $customerAttr->setData(
             'used_in_forms',
