@@ -43,7 +43,7 @@ class Commissiontype extends Column
                     $items['result_commission'] = $basePurchaseCurrency
                         ->format($items['sa_commission_value'], [], false);
 
-                    $items['sa_commission_type'] = '<span class="grid-severity-notice"><span>' . 'Fixel' . '</span></span>';
+                    $items['sa_commission_type'] = '<span class="grid-severity-notice"><span>' . 'Fixed' . '</span></span>';
                     $items['sa_commission_value'] = $basePurchaseCurrency
                         ->format($items['sa_commission_value'], [], false);
                 }

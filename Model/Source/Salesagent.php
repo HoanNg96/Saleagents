@@ -9,7 +9,6 @@ class Salesagent extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSour
 {
     protected $optArray;
 
-
     protected $_customer;
     protected $_customerFactory;
 
@@ -28,10 +27,14 @@ class Salesagent extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSour
     public function getAllOptions()
     {
         if ($this->optArray === null) {
+            /* get all customer is sale agent */
             $collection = $this->_customerFactory->create()->getCollection()->addFieldToFilter('is_sales_agent', 1);
+            $this->optArray[] = ['label' => '-- Choose a Sale Agent --', 'value' => null];
             foreach ($collection as $item) {
                 $this->optArray[] = [
+                    /* label = customer full name */
                     'label' => ' ' . $item->getFirstname() . ' ' . $item->getMiddlename() . ' ' . $item->getLastname(),
+                    /* value = customer id */
                     'value' => $item->getEntityId(),
                 ];
             }

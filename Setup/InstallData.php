@@ -51,7 +51,7 @@ class InstallData implements InstallDataInterface
          * (Mapping by \Magento\'Catalog/Customer'\Model\ResourceModel\Setup\PropertyMapper)
          */
         $eavSetup->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'sale_agent_id', [
-            'group' => 'Product Details',/* group attribute in BE */
+            'group' => 'Sale Agent',/* group attribute in BE */
             'type' => 'text',/* decide what table the value was stored -> catalog_product_entity_'text' */
             'backend' => '',/* class associated with the attribute */
             'frontend' => '',/* class associated with the attribute */
@@ -74,7 +74,7 @@ class InstallData implements InstallDataInterface
         ]);
 
         $eavSetup->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'commission_type', [
-            'group' => 'Product Details',
+            'group' => 'Sale Agent',
             'type' => 'int',
             'backend' => '',
             'frontend' => '',
@@ -97,7 +97,7 @@ class InstallData implements InstallDataInterface
         ]);
 
         $eavSetup->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'commission_value', [
-            'group' => 'Product Details',
+            'group' => 'Sale Agent',
             'type' => 'decimal',
             'backend' => '',
             'frontend' => '',

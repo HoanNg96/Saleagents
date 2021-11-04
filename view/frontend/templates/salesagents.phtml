@@ -47,7 +47,7 @@ foreach ($productcollection as $product) {
                         <td data-th="<?= $block->escapeHtml(__('Commisson Type')) ?>" class="col total">
                             <?php /* @noEscape */ $typeCommisson = $products->getCommissionType();
                             if ($typeCommisson == 1) {
-                                echo 'Fixel';
+                                echo 'Fixed';
                             } else {
                                 echo 'Percent';
                             }

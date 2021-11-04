@@ -74,7 +74,7 @@
                     <argument name="header_css_class" xsi:type="string">col-sale_agent</argument>
                 </arguments>
             </block>
-             <block class="Magento\Backend\Block\Widget\Grid\Column" name="adminhtml.report.grid.product_price_final" as="product_price_final">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" name="adminhtml.report.grid.product_price_final" as="product_price_final">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Price Incl Tax</argument>
                     <argument name="type" xsi:type="string">currency</argument>
