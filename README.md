@@ -28,3 +28,8 @@ be sure to apply an appropriate data type to each field (you can edit the table 
         - When customer successfully place an order, SA will immediately receive commission
         - When a SA logged in to his account, he can preview (somewhere in My Account) all product assigned to him (you should display this with a table)
             + Product name, sku, url to the product
+
+# 5.Error
+- When change SA of a product, record in report was replaced
+- SA tab in my account not working
+- can't save customer when remove SA

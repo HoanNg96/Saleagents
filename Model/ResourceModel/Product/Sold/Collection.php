@@ -119,7 +119,7 @@ class Collection extends \Magento\Reports\Model\ResourceModel\Order\Collection
                 ['sale_agent_name' => $this->getConnection()->getTableName('customer_entity')],
                 "sale_agent.value = sale_agent_name.entity_id ",
                 [
-                    'saleagent_name' => 'CONCAT(sale_agent_name.lastname," ", sale_agent_name.firstname )',
+                    'saleagent_name' => 'CONCAT(sale_agent_name.firstname, " ", sale_agent_name.lastname)',
                 ]
             )
             ->where(
@@ -144,7 +144,6 @@ class Collection extends \Magento\Reports\Model\ResourceModel\Order\Collection
             ->order('order.status');
         return $this;
     }
-
     /**
      * Set store filter to collection
      *
@@ -190,7 +189,6 @@ class Collection extends \Magento\Reports\Model\ResourceModel\Order\Collection
 
         return $this;
     }
-
     /**
      * Prepare between sql
      *

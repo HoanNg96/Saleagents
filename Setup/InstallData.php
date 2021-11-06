@@ -136,7 +136,7 @@ class InstallData implements InstallDataInterface
             'system'       => 0
         ]);
 
-        /* add attribute to form */
+        /* add in form_code of customer_form_attribute table */
         $customerAttr = $this->eavConfig->getAttribute(\Magento\Customer\Model\Customer::ENTITY, 'is_sales_agent');
         $customerAttr->setData(
             'used_in_forms',

@@ -69,7 +69,7 @@
                 <indexField>entity_id</indexField>
             </settings>
         </selectionsColumn> -->
-        <column name="order_items_sku">
+        <column name="order_items_sku"> <!--  -->
             <settings>
                 <label translate="true">SKU</label>
                 <filter>text</filter>
