@@ -27,11 +27,17 @@ class Salesagents extends \Magento\Framework\View\Element\Template
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*')->addFieldToFilter('sale_agent_id', $customerId);
         $aht_sales_agent = $this->_resource->getTableName('aht_sales_agent');
-        $collection->getSelect()->join(
+        $collection->getSelect()->group('e.entity_id')/* ->join(
             ['order_sa' => $aht_sales_agent],
             'e.entity_id = order_sa.order_item_id'
-        );
+        ) */;/* use group for select distinct */
         $collection->setPageSize(5);
+        /* $collection->printlogquery(true); */ /* print sql query */
         return $collection;
+    }
+
+    public function getEmptyOrdersMessage()
+    {
+        return "None product was assigned to you!";
     }
 }

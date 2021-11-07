@@ -32,6 +32,12 @@ class Commissiontype extends Column
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
+    /**
+     * Prepare Data Source
+     *
+     * @param array $dataSource
+     * @return array
+     */
     public function prepareDataSource(array $dataSource)
     {
         $currencyCode = isset($item['base_currency_code']) ? $item['base_currency_code'] : null;

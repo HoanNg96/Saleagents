@@ -25,6 +25,7 @@ class LoadOrder implements \Magento\Framework\Event\ObserverInterface
 
         $salesagentModel = $this->salesagentFactory->create();
         $items = $order->getAllItems();
+        /* insert value to aht_sales_agent table */
         foreach ($items as $item) {
             $haveAgents = explode(",", $item->getProduct()->getSaleAgentId());
 

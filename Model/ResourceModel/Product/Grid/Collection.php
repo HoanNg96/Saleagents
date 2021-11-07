@@ -75,6 +75,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
     }
 
     /**
+     * default select
      *
      * @param string $from
      * @param string $to

@@ -15,13 +15,13 @@
         <settings>
             <updateUrl path="mui/index/render"/>
             <storageConfig>
-                <param name="indexField" xsi:type="string">item_id</param>
+                <param name="indexField" xsi:type="string">order_items_sku</param> <!-- for filter clear not duplicate -->
             </storageConfig>
         </settings>
         <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="ahtsalesagents_sacommission_listing_data_source">
             <settings>
-                <requestFieldName>item_id</requestFieldName>
-                <primaryFieldName>item_id</primaryFieldName>
+                <requestFieldName>order_items_sku</requestFieldName>
+                <primaryFieldName>order_items_sku</primaryFieldName>
             </settings>
         </dataProvider>
     </dataSource>
