@@ -31,4 +31,3 @@ be sure to apply an appropriate data type to each field (you can edit the table 
 
 # 5.Error
 - When change SA of a product, record in report was replaced
-- can't save customer when remove SA

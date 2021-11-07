@@ -13,7 +13,7 @@ class FirstnamesaPlugin
                     $result = "Sales Agent: " . $result;
                 }
             } else {
-                $result = preg_replace("Sales Agent: ", "", $result);
+                $result = preg_replace("/Sales Agent: /", "", $result);
             }
         }
         return $result;
