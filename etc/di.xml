@@ -15,7 +15,7 @@
         </arguments>
     </type>
 
-    <type name="Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider">
+    <type name="Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider"> <!-- for search component ui -->
         <arguments>
             <argument name="addFilterStrategies" xsi:type="array">
                 <item name="fulltext" xsi:type="object">Magento\CatalogSearch\Ui\DataProvider\Product\AddFulltextFilterToCollection</item>

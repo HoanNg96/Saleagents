@@ -19,7 +19,7 @@
                 <constraint xsi:type="primary" referenceId="PRIMARY">
                         <column name="entity_id"/>
                 </constraint>
-                <index referenceId="UNIT6_COMPUTER_GAME_NAME_TYPE" indexType="fulltext">
+                <index referenceId="UNIT6_COMPUTER_GAME_NAME_TYPE" indexType="fulltext"> <!-- index as field for search component ui -->
                         <column name="order_item_sku"/>
                 </index>
         </table>
