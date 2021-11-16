@@ -133,18 +133,19 @@ class InstallData implements InstallDataInterface
             'user_defined' => false,
             'position'     => 999,
             'required' => false,
-            'system'       => 0
+            'system'       => 0 // not system-defined attribute
         ]);
 
         /* add in form_code of customer_form_attribute table */
         $customerAttr = $this->eavConfig->getAttribute(\Magento\Customer\Model\Customer::ENTITY, 'is_sales_agent');
         $customerAttr->setData(
             'used_in_forms',
-            ['adminhtml_customer']
+            ['adminhtml_customer'] // Make attribute visible in Admin customer form
         );
         $customerAttr->save();
         $setup->endSetup();
 
+        // add data to commission_type table
         $dataNewsRows = [
             [
                 'type_name' => 'Fixed',
@@ -153,9 +154,7 @@ class InstallData implements InstallDataInterface
                 'type_name' => 'Percent',
             ]
         ];
-        $eavSetup->removeAttribute(\Magento\Customer\Model\Customer::ENTITY, 'company_type');
         foreach ($dataNewsRows as $data) {
-
             $setup->getConnection()->insert($setup->getTable('commission_type'), $data);
         }
     }

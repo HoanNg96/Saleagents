@@ -4,7 +4,6 @@ namespace AHT\Salesagents\Model\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
 
-
 class Salesagent extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource implements OptionSourceInterface
 {
     protected $optArray;
