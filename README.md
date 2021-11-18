@@ -29,9 +29,11 @@ be sure to apply an appropriate data type to each field (you can edit the table 
         - When a SA logged in to his account, he can preview (somewhere in My Account) all product assigned to him (you should display this with a table)
             + Product name, sku, url to the product
 
-# 5.Error
-- When change SA of a product, record in report was replaced
-
 # 6: Construction Step
-- create new table (db_schema.xml)
-- add attribute to database & form fields (InstallData, Model/Source)
+
+1. create new table to save SA order items (db_schema.xml)
+2. add attribute to database & form fields (InstallData, Model, ResourceModel, Collection, Source)
+3. add Plugin to change SA name
+4. add observer to save SA order to database
+5. add menu to frontend (controller, layout, template, Block, View)
+6. add menu to backend (acl.xml, menu.xml, routes, controller)

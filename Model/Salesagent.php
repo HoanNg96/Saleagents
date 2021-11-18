@@ -14,6 +14,7 @@ class Salesagent extends \Magento\Framework\Model\AbstractModel implements Sales
     {
         $this->_init("AHT\Salesagents\Model\ResourceModel\Salesagent");
     }
+
     public function getIdentities()
     {
         return [self::CACHE_TAG . '_' . $this->getId()];

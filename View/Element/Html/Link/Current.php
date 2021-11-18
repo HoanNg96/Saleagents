@@ -110,31 +110,9 @@ class Current extends Template
      */
     public function isCurrent()
     {
-        $urlByPath = preg_replace(self::REGEX_INDEX_URL_PATTERN, '', $this->getUrl($this->getPath()));
         return $this->getCurrent() ||
-            ($urlByPath == preg_replace(self::REGEX_INDEX_URL_PATTERN, '', $this->getUrl($this->getMca()))) ||
-            $this->isCurrentCmsUrl($urlByPath);
-    }
-
-    /**
-     * Get Current displayed page url
-     *
-     * @return string
-     */
-    private function getCurrentUrl()
-    {
-        return $this->getUrl('*/*/*', ['_current' => false, '_use_rewrite' => true]);
-    }
-
-    /**
-     * Check if link URL equivalent to URL of currently displayed CMS page
-     *
-     * @param string $urlByPath
-     * @return bool
-     */
-    private function isCurrentCmsUrl($urlByPath)
-    {
-        return ($urlByPath == preg_replace(self::REGEX_INDEX_URL_PATTERN, '', $this->getCurrentUrl()));
+            preg_replace(self::REGEX_INDEX_URL_PATTERN, '', $this->getUrl($this->getPath()))
+            == preg_replace(self::REGEX_INDEX_URL_PATTERN, '', $this->getUrl($this->getMca()));
     }
 
     /**
@@ -183,7 +161,10 @@ class Current extends Template
         $customerId  = $this->customer->getCustomer()->getId();
         $customer = $this->customerRepository->getById($customerId);
         $customer_sa = $customer->getCustomAttribute('is_sales_agent');
-        if ($customer_sa) {
+
+        if (!$customer_sa) {
+            $html = '';
+        } else {
             if ($customer_sa->getValue() == \Magento\Eav\Model\Entity\Attribute\Source\Boolean::VALUE_NO) {
                 $html = '';
             }

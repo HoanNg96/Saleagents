@@ -11,7 +11,7 @@
             <block class="AHT\Salesagents\View\Element\Html\Link\Current" name="customer-account-navigation-custom">
                 <arguments>
                     <argument name="path" xsi:type="string">salesagents/customer/index</argument>
-                    <argument name="label" xsi:type="string">Salesagents</argument>
+                    <argument name="label" xsi:type="string">SaleAgent Products</argument>
                 </arguments>
             </block>
         </referenceBlock>
