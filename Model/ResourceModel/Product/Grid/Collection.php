@@ -11,7 +11,6 @@ use Magento\Sales\Model\ResourceModel\Order\Item;
 use Magento\Eav\Model\ResourceModel\Entity\Attribute;
 use Magento\Sales\Model\Order\Item as ItemOrder;
 use Magento\Framework\DB\Select;
-use phpDocumentor\Reflection\Types\This;
 use Zend_Db_Select_Exception;
 
 class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult
@@ -26,9 +25,14 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
     protected $itemOrder;
 
     /**
-     * @var \Magento\Ui\DataProvider\AddFilterToCollectionInterface[]
+     * @var \Magento\Ui\DataProvider\AddFilterToCollectionInterface
      */
     protected $addFilterStrategies;
+
+    /**
+     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
+     */
+    protected $_productCollectionFactory;
 
     public function __construct(
         Attribute $eavAttribute,
@@ -37,6 +41,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
         Logger $logger,
         FetchStrategy $fetchStrategy,
         EventManager $eventManager,
+        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         array $addFilterStrategies = [],
         $mainTable = 'aht_sales_agent',
         $resourceModel = Item::class,
@@ -44,6 +49,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
         $connectionName = null
     ) {
         $this->addFilterStrategies = $addFilterStrategies;
+        $this->_productCollectionFactory = $productCollectionFactory;
         $this->itemOrder = $itemOrder;
         $this->eavAttribute = $eavAttribute;
         parent::__construct(
@@ -85,23 +91,23 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
     public function _initSelect($from = '', $to = '')
     {
         $connection = $this->getConnection();
-        /* to replace 'order' as a variable in sql query */
+        // to replace 'order' as a variable in sql query
         $orderTableAliasName = $connection->quoteIdentifier('order');
 
         $orderJoinCondition = [
             $orderTableAliasName . '.entity_id = order_items.order_id',
-            /* use (text, value) in where clause */
+            // use (text, value) in where clause
             $connection->quoteInto("{$orderTableAliasName}.state <> ?", \Magento\Sales\Model\Order::STATE_CANCELED),
         ];
 
-        /* 'created_at' filter between */
+        // 'created_at' filter between
         if ($from != '' && $to != '') {
             $fieldName = $orderTableAliasName . '.created_at';
             $orderJoinCondition[] = $this->prepareBetweenSql($fieldName, $from, $to);
         }
 
         $this->getSelect()->reset()->from(
-            /* set alias for join table */
+            // set alias for join table
             ['order_items' => $this->getTable('sales_order_item')],
             [
                 'ordered_qty' => 'SUM(order_items.qty_ordered)',
@@ -113,7 +119,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
             implode(' AND ', $orderJoinCondition),
             'status'
         )->joinLeft(
-            /* set alias for join table */
+            // set alias for join table
             ['commission_value' => $this->getConnection()->getTableName('catalog_product_entity_decimal')],
             "order_items.product_id = commission_value.entity_id and commission_value.attribute_id = {$this->getProductNameAttributeId('commission_value')}",
             ['sa_commission_value' => 'commission_value.value']
@@ -121,9 +127,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
             ->joinLeft(
                 ['commission_type' => $this->getConnection()->getTableName('catalog_product_entity_int')],
                 "order_items.product_id = commission_type.entity_id and commission_type.attribute_id = {$this->getProductNameAttributeId('commission_type')}",
-                ['sa_commission_type' => 'commission_type.value',]
-                // array('new_price_for_sort' => new Zend_Db_Expr('IF(a.value > 0,1, 0)'), // which mean that in new field we will have price if it's not 0, and will have big integer is real price is zero. 
-                //     ));
+                ['sa_commission_type' => 'commission_type.value']
             )
             ->joinLeft(
                 ['commission_type_name' => $this->getConnection()->getTableName('commission_type')],
@@ -155,19 +159,12 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
             ->columns(
                 '(order_items.base_price*commission_value.value/100) as result_commission'
             )
-            // ->columns(
-            //     array('result_commission',
-            // new Expression('')))
             ->having(
                 'SUM(order_items.qty_ordered) > ?',
                 0
             )
+            ->order('order.status');
 
-            ->order('order.status')
-            /* ->__toString();
-        echo $this->getSelect();
-        die */;
-        /* query = SELECT SUM(order_items.qty_ordered) AS `ordered_qty`, `order_items`.`name` AS `order_items_name`, `order_items`.`sku` AS `order_items_sku`, `order`.`status`, `commission_value`.`value` AS `sa_commission_value`, `commission_type`.`value` AS `sa_commission_type`, `commission_type_name`.`type_name` AS `sa_commission_type_name`, `sale_agent`.`value` AS `sale_agent`, CONCAT(sale_agent_name.firstname, " ", sale_agent_name.lastname) AS `saleagent_name`, `order_items`.`base_row_total_incl_tax` AS `product_price_final`, (order_items.base_price*commission_value.value/100) AS `result_commission` FROM `sales_order_item` AS `order_items` INNER JOIN `sales_order` AS `order` ON `order`.entity_id = order_items.order_id AND `order`.state <> 'canceled' LEFT JOIN `catalog_product_entity_decimal` AS `commission_value` ON order_items.product_id = commission_value.entity_id and commission_value.attribute_id = 160 LEFT JOIN `catalog_product_entity_int` AS `commission_type` ON order_items.product_id = commission_type.entity_id and commission_type.attribute_id = 159 LEFT JOIN `commission_type` AS `commission_type_name` ON commission_type.value = commission_type_name.type_id LEFT JOIN `catalog_product_entity_text` AS `sale_agent` ON order_items.product_id = sale_agent.entity_id and sale_agent.attribute_id = 158 LEFT JOIN `customer_entity` AS `sale_agent_name` ON sale_agent.value = sale_agent_name.entity_id WHERE (order_items.parent_item_id IS NULL and sale_agent.value IS NOT NULL) GROUP BY `order_items`.`sku` HAVING (SUM(order_items.qty_ordered) > 0) ORDER BY `order`.`status` ASC */
         return $this;
     }
     /**
@@ -198,6 +195,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
 
         return $countSelect;
     }
+
     /**
      * Set order
      *
@@ -215,6 +213,7 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
 
         return $this;
     }
+
     /**
      * Prepare between sql
      *

@@ -15,7 +15,8 @@
         <settings>
             <updateUrl path="mui/index/render"/>
             <storageConfig>
-                <param name="indexField" xsi:type="string">order_items_sku</param> <!-- for filter clear not duplicate -->
+                <!-- for filter clear not duplicate items -->
+                <param name="indexField" xsi:type="string">order_items_sku</param>
             </storageConfig>
         </settings>
         <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="ahtsalesagents_sacommission_listing_data_source">
@@ -45,7 +46,6 @@
         </filterSearch> -->
 
         <columnsControls name="columns_controls"/>
-        <!-- <exportButton name="export_button"/> -->
         <filters name="listing_filters">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -61,15 +61,9 @@
             </argument>
         </filters>
         <paging name="listing_paging"/>
-        <!-- <massaction name="listing_massaction" /> -->
     </listingToolbar>
     <columns name="ahtsalesagents_sacommission_listing_columns">
-        <!-- <selectionsColumn name="entity_id">
-            <settings>
-                <indexField>entity_id</indexField>
-            </settings>
-        </selectionsColumn> -->
-        <column name="order_items_sku"> <!--  -->
+        <column name="order_items_sku">
             <settings>
                 <label translate="true">SKU</label>
                 <filter>text</filter>
@@ -106,7 +100,7 @@
                 <label translate="true">Sales Agent</label>
             </settings>
         </column>
-        <column name="ordered_qty">
+        <column name="ordered_qty" class="AHT\Salesagents\Ui\Component\Listing\Column\Commissiontype">
             <settings>
                 <label translate="true">QTY</label>
             </settings>
@@ -123,13 +117,11 @@
         </column>
         <column name="product_price_final" class="Magento\Sales\Ui\Component\Listing\Column\Price">
             <settings>
-                <!-- <filter>text</filter> -->
                 <label translate="true">Original Price</label>
             </settings>
         </column>
         <column name="status">
             <settings>
-                <!-- <filter>text</filter> -->
                 <label translate="true">Status</label>
             </settings>
         </column>

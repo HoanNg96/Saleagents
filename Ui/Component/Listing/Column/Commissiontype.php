@@ -48,7 +48,6 @@ class Commissiontype extends Column
                 if ($items['sa_commission_type'] == 1) {
                     $items['result_commission'] = $basePurchaseCurrency
                         ->format($items['sa_commission_value'], [], false);
-
                     $items['sa_commission_type'] = '<span class="grid-severity-notice"><span>' . 'Fixed' . '</span></span>';
                     $items['sa_commission_value'] = $basePurchaseCurrency
                         ->format($items['sa_commission_value'], [], false);
@@ -60,8 +59,10 @@ class Commissiontype extends Column
                     $items['sa_commission_value'] = number_format(($items['sa_commission_value']), 2, ".", ",") . '%';
                     $items['sa_commission_type'] = '<span class="grid-severity-minor"><span>' . 'Percent' . '</span></span>';
                 }
+                $items['ordered_qty'] = number_format(($items['ordered_qty']), 0, ".", ",");
             }
         }
+
         return $dataSource;
     }
 }

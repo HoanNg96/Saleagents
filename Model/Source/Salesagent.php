@@ -6,9 +6,14 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 class Salesagent extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource implements OptionSourceInterface
 {
-    protected $optArray;
-
+    /**
+     * @var \Magento\Customer\Model\Customer
+     */
     protected $_customer;
+
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
     protected $_customerFactory;
 
     public function __construct(
@@ -20,37 +25,23 @@ class Salesagent extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSour
     }
 
     /**
+     * Get all select options
+     *
      * @return array|null
-     * @return Post Category
      */
     public function getAllOptions()
     {
-        if ($this->optArray === null) {
-            /* get all customer is sale agent */
+        if (!$this->_options) {
             $collection = $this->_customerFactory->create()->getCollection()->addFieldToFilter('is_sales_agent', 1);
-            $this->optArray[] = ['label' => '-- Choose a Sale Agent --', 'value' => null];
+            $this->_options[] = ['label' => '-- Choose a Sale Agent --', 'value' => null];
             foreach ($collection as $item) {
-                $this->optArray[] = [
-                    /* label = customer full name */
+                $this->_options[] = [
                     'label' => ' ' . $item->getFirstname() . ' ' . $item->getMiddlename() . ' ' . $item->getLastname(),
-                    /* value = customer id */
                     'value' => $item->getEntityId(),
                 ];
             }
         }
 
-        return $this->optArray;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        $array = [];
-        foreach ($this->toOptionArray() as $item) {
-            $array[$item['value']] = $item['label'];
-        }
-        return $array;
+        return $this->_options;
     }
 }

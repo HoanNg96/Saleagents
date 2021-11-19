@@ -12,7 +12,7 @@ class Salesagent extends \Magento\Framework\Model\AbstractModel implements Sales
 
     public function _construct()
     {
-        $this->_init("AHT\Salesagents\Model\ResourceModel\Salesagent");
+        $this->_init('AHT\Salesagents\Model\ResourceModel\Salesagent');
     }
 
     public function getIdentities()
