@@ -25,7 +25,7 @@ class Collection extends \Magento\Reports\Model\ResourceModel\Order\Collection
     protected $_entityAttributeCollection;
 
     /**
-     * Set Date range to collection
+     * Get Product Attribute Id by name
      *
      * @param string $attr_code
      * @return $attributeId
@@ -99,9 +99,7 @@ class Collection extends \Magento\Reports\Model\ResourceModel\Order\Collection
             ->joinLeft(
                 ['commission_type' => $this->getConnection()->getTableName('catalog_product_entity_int')],
                 "order_items.product_id = commission_type.entity_id and commission_type.attribute_id = {$this->getProductNameAttributeId('commission_type')}",
-                ['sa_commission_type' => 'commission_type.value',]
-                // array('new_price_for_sort' => new Zend_Db_Expr('IF(a.value > 0,1, 0)'), // which mean that in new field we will have price if it's not 0, and will have big integer is real price is zero. 
-                //     ));
+                ['sa_commission_type' => 'commission_type.value']
             )
             ->joinLeft(
                 ['commission_type_name' => $this->getConnection()->getTableName('commission_type')],
@@ -133,15 +131,12 @@ class Collection extends \Magento\Reports\Model\ResourceModel\Order\Collection
             ->columns(
                 '(order_items.base_price*commission_value.value/100) as result_commission'
             )
-            // ->columns(
-            //     array('result_commission',
-            // new Expression('')))
             ->having(
                 'SUM(order_items.qty_ordered) > ?',
                 0
             )
-
             ->order('order.status');
+
         return $this;
     }
     /**

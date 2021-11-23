@@ -50,10 +50,6 @@ class SaleagentRepository implements SalesagentRepositoryInterface
 
     public function save(\AHT\Salesagents\Api\Data\SalesagentInterface $salesagent)
     {
-        if ($salesagent->getStoreId() === null) {
-            $storeId = $this->storeManager->getStore()->getId();
-            $salesagent->setStoreId($storeId);
-        }
         try {
             $this->resource->save($salesagent);
         } catch (\Exception $exception) {
